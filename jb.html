@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqtree/1.7.0/jqtree.min.css" rel="stylesheet" />
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+  />    
+  <style>
+      .hidden-node {
+        display: none;
+      }
+
+        .highlight-node > .jqtree-element > .jqtree-title {
+            font-weight: bold;
+            color: red;
+        }
+
+        #search-term {
+            margin-bottom: 16px;
+            margin-right: 8px;
+        }
+  </style>
+</head>
+
+<body>
+    <div class="container">
+        <br />
+        <div class="jumbotron">
+            <h3>jb jquery test</h3>
+            <br />
+            <input class="form-control" placeholder="Name"></input>
+            <br />
+            <button id="send" class="btn btn-success">jqeury test</button>
+        </div>
+
+        <div id="messages">
+
+        </div>
+        <div class="container">
+            <br />
+            <div class="jumbotron">
+                <h3>jb jqtree test</h3>
+                <h3><a href="http://mbraak.github.io/jqTree/">http://mbraak.github.io/jqTree/</a></h3>
+                <br />
+                <h5>example1</h5>
+                <div id="tree1"></div>
+                <br />
+                <!--<div id="tree2" data-url="./treedata.json"></div>-->
+                <br />
+                <h5>example3(드래그앤드랍)</h5>
+                <br />
+                <h5>example4(새로고침후에도 펼처진상태기억)</h5>
+                <div id="tree3"></div>
+                <br />
+                <h5>example6(제목에html활용)(이모지활용:https://html-css-js.com/html/character-codes/drawing/</h5>
+                <div id="tree6"></div>
+                <br />
+                <h5>example8(멀티선택)</h5>
+                <div id="tree8"></div>
+                <br />
+                <h5>example9(CustomHTML)/example14(Filter)</h5>
+                <div">
+                    <input id="search-term" autofocus></input>
+                    <button id="search">Search</button>
+                </div>
+                <div id="tree9"></div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+            crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqtree/1.7.0/tree.jquery.min.js"></script>
+
+
+
+
+        <script>
+            $(() => {
+                //jquery 기본동작테스트
+                // console.log
+                $("#send").click(() => {
+                    addMessages({ name: 'Time', message: 'hello' })
+                })
+                function addMessages(message) {
+                    $('#messages').append(`<h4> ${message.name} </h4> <p> ${message.message} </p>`)
+                }
+                //jqTree 예제테스트
+                var data = [
+                    {
+                        name: 'ERP', id: 1,
+                        children: [
+                            { name: 'HR', id: 11 },
+                            { name: 'FI', id: 12 },
+                            { name: 'CO', id: 13 },
+                            { name: 'PP', id: 14 },
+                            { name: 'LM', id: 15 },
+                            { name: 'SD', id: 16 },
+                            { name: 'MM', id: 17 }
+                        ]
+                    },
+                    {
+                        name: 'SCM', id: 2,
+                        children: [
+                            { name: 'A물류시스템', id: 21 },
+                            { name: 'B물류시스템', id: 22 },
+                            { name: 'C물류시스템', id: 23 },
+                            {
+                                name: 'D물류시스템', id: 24,
+                                children: [
+                                    { name: 'A창고관리1', id: 2401 },
+                                    { name: 'A창고관리2', id: 2402 },
+                                    {
+                                        name: 'A창고관리3', id: 2403,
+                                        children: [
+                                            { name: 'A3창고카메라1', id: 240301 },
+                                            { name: 'A3창고카메라2', id: 240302 },
+                                            { name: 'A3창고카메라3', id: 240303 }
+                                        ]
+
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ];
+                var data2 = [
+                    {
+                        name: 'ERP', id: 1,
+                        children: [
+                            { name: '<a href="https://www.naver.com">naver</a>', id: 11 },
+                            { name: '<a href="https://www.google.com">google</a>', id: 12 },
+                            { name: '<h1>Hello🙄🦁</h1>', id: 13 },
+                            { name: '<h2>Hello🍎🍎</h2>', id: 14 },
+                            { name: '<h3>Hello🍿🍿&#9625;&#9628;</h3>', id: 15 },
+                            { name: '<h4>Hello👹</h4>', id: 16 },
+                            { name: '<h5>Hello😯</h5>', id: 17 }
+                        ]
+                    }
+                ]
+
+            //------------------------------------------------------------------------------
+            $('#tree1').tree({
+                    data: data
+                });
+            //------------------------------------------------------------------------------
+                //$('#tree2').tree();
+            //------------------------------------------------------------------------------
+            var $tree3 = $('#tree3');
+                $tree3.tree({
+                    dragAndDrop: true,
+                    autoOpen: 2,
+                    saveState: true,
+                    data: data
+                });
+            //------------------------------------------------------------------------------
+            var $tree6 = $('#tree6');
+                $tree6.tree({
+                    dragAndDrop: true,
+                    autoOpen: 2,
+                    autoEscape: false,
+                    data: data2,
+                });
+            //------------------------------------------------------------------------------
+            var $tree8 = $('#tree8');
+                $tree8.tree({
+                    dragAndDrop: true,
+                    //autoOpen: 2,
+                    autoEscape: false,
+                    data: data
+                });
+                $tree8.on('tree.click', function(e) {
+                    // Disable single selection
+                    e.preventDefault();
+                    var selected_node = e.node;
+
+                    if (selected_node.id === undefined) {
+                        console.warn('The multiple selection functions require that nodes have an id');
+                    }
+
+                    if ($tree8.tree('isNodeSelected', selected_node)) {
+                        $tree8.tree('removeFromSelection', selected_node);
+                    } else {
+                        $tree8.tree('addToSelection', selected_node);
+                    }
+                });
+            //------------------------------------------------------------------------------
+            let foundMatch = false;
+
+            var $tree9 = $('#tree9');
+                $tree9.tree({
+                    dragAndDrop: true,
+                    autoOpen: 2,
+                    //autoEscape: false,
+                    data: data,
+                    useContextMenu: false,
+                    onCreateLi: function(node, $li) {
+                        // Append a link to the jqtree-element div.
+                        // The link has an url '#node-[id]' and a data property 'node-id'.
+                        $li.find('.jqtree-element').append(
+                            '<a href="#node-'+ node.id +'" class="edit" data-node-id="'+ node.id +'">edit</a>'
+                            );
+                        //for search filter    
+                        if (foundMatch && !node.openForMatch && !node.parent.matches) {
+                            $li.addClass("hidden-node");
+                        }
+
+                        if (node.matches) {
+                            $li.addClass("highlight-node");
+                        }
+                    },
+                    //closedIcon: $('<i class="fas fa-arrow-circle-right fa-2x"></i>'),
+                    //openedIcon: $('<i class="fas fa-arrow-circle-down fa-2x"></i>')
+
+                    //buttonLeft: false,
+                    closedIcon: $('<i class="fa-solid fa-folder"></i>'),
+                    openedIcon: $('<i class="fa-solid fa-folder-open"></i>')
+                    
+                    //closedIcon: $('<i class="fa-sharp fa-solid fa-house"></i>'),
+                    //openedIcon: $('<i class="fa-sharp fa-solid fa-check"></i>')
+                    
+
+                });
+
+            // Handle a click on the edit link
+            $tree9.on( 'click', '.edit', function(e) {
+                // Get the id from the 'node-id' data property
+                var node_id = $(e.target).data('node-id');
+
+                // Get the node from the tree
+                var node = $tree9.tree('getNodeById', node_id);
+
+                if (node) {
+                    // Display the node name
+                    alert(node.id+"/"+node.name);
+                }
+            });
+
+            //for filter search
+            $("#search").on("click", () => {
+                const searchTerm = $("#search-term").val().toLowerCase();
+                const tree = $tree9.tree("getTree");
+
+                if (!searchTerm) {
+                    foundMatch = false;
+
+                    tree.iterate((node) => {
+                        node['openForMatch'] = false;
+                        node["matches"] = false;
+                        return true;
+                    });
+
+                    $tree9.tree("refresh");
+                    return;
+                }
+
+                foundMatch = false;
+
+                tree.iterate((node) => {
+                    const matches = node.name.toLowerCase().includes(searchTerm);
+                    node["openForMatch"] = matches;
+                    node["matches"] = matches;
+
+                    if (matches) {
+                        foundMatch = true;
+
+                        if (node.isFolder()) {
+                            node.is_open = true;
+                        }
+
+                        let parent = node.parent;
+                        while (parent) {
+                            parent["openForMatch"] = true;
+                            parent.is_open = true;
+                            parent = parent.parent;
+                        }
+                    }
+
+                    return true;
+                });
+
+                $tree9.tree("refresh");
+            });            
+
+            //------------------------------------------------------------------------------
+        })
+
+        </script>
+</body>
+
+</html>
